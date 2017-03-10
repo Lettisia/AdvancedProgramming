@@ -7,7 +7,7 @@ public class Official extends Participant {
 	}
 	
 	public Athlete [] summariseScore(Athlete [] athletes, String sport) {
-		
+		return athletes;
 	}
 
 }
