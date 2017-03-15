@@ -4,15 +4,23 @@ public class Game {
 	private Athlete [] athletes;
 	private Official referee;
 	private String gameID;
+	private boolean resultExists = false;
 	
 	
-	
-	public void printCompetitorNames() {
+	/** 
+	 * @return Nicely formatted array of strings containing the athlete names
+	 */
+	public String [] printCompetitorNames() {
+		String [] result = new String[athletes.length];
 		for (int i = 0; i<athletes.length; i++) {
-			System.out.println((i+1) + ". " + athletes[i].getName());
+			result[i] = Integer.toString(i+1) + ". " + athletes[i].getName();
 		}
+		return result;
 	}
 	
+	/**
+	 * @return number of athletes in this game
+	 */
 	public int numAthletes() {
 		return athletes.length;
 	}
@@ -21,9 +29,16 @@ public class Game {
 		
 	}
 	
-	public String printResult() {
-		String temp = "1st: " + athletes[0].getName() + "/n";
-		temp = temp + ""
+	/**
+	 *  @return Nicely formatted array of strings describing the results of the game
+	 */
+	public String [] printResult() {
+		String [] temp = new String[4];
+		temp[0] = "The results for the " + whichSport + " race with GameId: " + gameID + " referreed by " + referee.getName() + " are: ";
+		temp[1] = "In first place: " + athletes[0].getName();
+		temp[2] = "In second place: " + athletes[1].getName();
+		temp[3] = "and in third place: " + athletes[2].getName();
+		return temp;
 	}
 	
 	
@@ -74,5 +89,19 @@ public class Game {
 	 */
 	public void setGameID(String gameID) {
 		this.gameID = gameID;
+	}
+
+	/**
+	 * @return the resultExists
+	 */
+	public boolean isResultExists() {
+		return resultExists;
+	}
+
+	/**
+	 * @param resultExists the resultExists to set
+	 */
+	public void setResultExists(boolean resultExists) {
+		this.resultExists = resultExists;
 	}
 }

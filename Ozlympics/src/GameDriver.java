@@ -1,5 +1,14 @@
 import java.util.Scanner;
 
+/**
+ * 
+ * Assumption:
+ * - the user can only predict the result of the current game.
+ * 
+ * @author lettisia
+ *
+ */
+
 public class GameDriver {
 	
 	private Game [] games;
@@ -10,10 +19,6 @@ public class GameDriver {
 	private Athlete userPrediction;
 	
 	
-	
-	public GameDriver() {
-		
-	}
 
 	public GameDriver(Game [] games, Official [] officials, Athlete [] athletes) {
 		this.games = games;
@@ -47,33 +52,53 @@ public class GameDriver {
 		} while (choice != 6);
 	}
 	
-	
+	/**
+	 * Displays the name and points of each athlete to the console
+	 */
 	private void displayPoints() {
-		// TODO Auto-generated method stub
 		for (int i=0; i<athletes.length; i++) {
 			System.out.println(athletes[i].getName() + " received " + athletes[i].getPoints() + " points.");
 		}
 	}
-
+	
+	/**
+	 * Displays the results of each game to the console
+	 */
 	private void displayResults() {
-		// TODO Auto-generated method stub
 		for (int i = 0; i< games.length; i++) {
-			System.out.println(games[i].printResult());
+			String [] result = games[i].printResult();
+			for(int j=0; j<result.length; j++) {
+				System.out.println(result[j]);
+			}		
+			System.out.println();
 		}
 	}
 
+	/**
+	 * Runs the current game
+	 */
 	private void startGame() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Asks the user to select one of the athletes in the current game
+	 * @return the Athlete predicted to win by the user
+	 */
 	private Athlete predictWinner() {
 		Athlete newWinner = null;
 		boolean done = false;
 		Scanner keyboard = new Scanner(System.in);
 		
 		System.out.println("The following athletes are competing in a " + currentGame.getWhichSport() + " race.");
-		currentGame.printCompetitorNames();
+		String [] nameList = currentGame.printCompetitorNames();
+		
+		for(int i=0; i<nameList.length; i++) {
+			System.out.println(nameList[i]);
+		}
+		
+		System.out.println();
 		System.out.println("Who will win? ");
 		
 		do {
@@ -107,7 +132,6 @@ public class GameDriver {
 		for(int i = 0; i<games.length; i++) {
 			System.out.print(games[i].getGameID() + " ");
 		}
-	
 		
 		do {
 			System.out.println("");
@@ -136,7 +160,9 @@ public class GameDriver {
 		return tryGame;
 	}
 
-	// @return integer representing menu choice
+	/**
+	 * @return integer representing menu choice 1-6
+	 */
 	private int menuChoice() {
 		System.out.println("Ozlympic Game");
 		System.out.println("= = = = = = = = = = = = = = = = = =");
