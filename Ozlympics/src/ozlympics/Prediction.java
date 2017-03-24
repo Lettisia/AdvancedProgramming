@@ -1,3 +1,4 @@
+package ozlympics;
 
 public class Prediction {
 	private Game theGame;

@@ -1,3 +1,4 @@
+package ozlympics;
 
 public abstract class Participant {
 	private String userID;
@@ -6,6 +7,15 @@ public abstract class Participant {
 	private String state;
 	
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return userID + ", " + name + ", " + age + ", " + state;
+	}
+
+
 	public Participant(String userID, String name, int age, String state) {
 		this.userID = userID;
 		this.name = name;

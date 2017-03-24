@@ -1,3 +1,4 @@
+package ozlympics;
 
 public class WrongSportException extends Exception {
 

@@ -1,9 +1,15 @@
+package ozlympics;
 import java.util.Scanner;
 
 /**
  * 
+ * Not yet implemented
+ * - Option to cancel a menu item once selected and return to main menu.
+ * - startGame() method to run games
+ * - Nice menu messages like 'Welcome to Ozlympics' etc.
+ * 
  * Assumption:
- * - the user can only predict the result of the current game.
+ * - the user can only predict the result of the current game. A new prediction will replace the old one.
  * 
  * @author lettisia
  *
@@ -25,6 +31,7 @@ public class GameDriver {
 		this.setOfficials(officials);
 		this.setAthletes(athletes);
 		userPrediction = null;
+		currentGame = null;
 	}
 
 	
@@ -79,7 +86,7 @@ public class GameDriver {
 	 */
 	private void startGame() {
 		// TODO Auto-generated method stub
-		
+		currentGame.runGame();
 	}
 
 	/**
@@ -89,7 +96,7 @@ public class GameDriver {
 	private Athlete predictWinner() {
 		Athlete newWinner = null;
 		boolean done = false;
-		Scanner keyboard = new Scanner(System.in);
+		Scanner keyboard1 = new Scanner(System.in);
 		
 		System.out.println("The following athletes are competing in a " + currentGame.getWhichSport() + " race.");
 		String [] nameList = currentGame.printCompetitorNames();
@@ -105,7 +112,7 @@ public class GameDriver {
 			System.out.println("");
 			System.out.print("Enter the winner's number: " );
 			
-			int response = keyboard.nextInt();
+			int response = keyboard1.nextInt();
 			response--;
 			
 			if (response >= 0 && response < currentGame.numAthletes()) {
@@ -119,27 +126,35 @@ public class GameDriver {
 
 		} while (!done);
 		
-		keyboard.close();
+		keyboard1.close();
 		return newWinner;
 	}
 
-	private Game chooseGame() {
+	/**
+	 * Displays a menu so the user can select a game to run
+	 * @return the selected game
+	 */
+	public Game chooseGame() {
 		boolean done = false;
-		Scanner keyboard = new Scanner(System.in);
+		Scanner keyboard2 = new Scanner(System.in);
 		Game tryGame = null;
 		
-		System.out.println("Here are the current games: ");
+		System.out.print("\nHere are the current games: ");
 		for(int i = 0; i<games.length; i++) {
 			System.out.print(games[i].getGameID() + " ");
 		}
 		
+		
 		do {
-			System.out.println("");
-			System.out.print("Enter the game id:" );
-			String response = keyboard.nextLine();
+			System.out.println();
+			System.out.print("Enter the game id: " );
+			keyboard2 = new Scanner(System.in);
+			String response = keyboard2.next();
 			
+			System.out.println(response);
+
 			for(int i = 0; i < games.length && !done; i++) {
-				if (games[i].getGameID() == response) { 
+				if (games[i].getGameID().equals(response)) { 
 					tryGame = games[i];
 					done = true;							
 				}
@@ -156,7 +171,7 @@ public class GameDriver {
 		// Remove current user prediction
 		setUserPrediction(null);
 		
-		keyboard.close();
+		keyboard2.close();
 		return tryGame;
 	}
 
@@ -172,15 +187,15 @@ public class GameDriver {
 		System.out.println("4. Display the final results of all games");
 		System.out.println("5. Display the points of all athletes");
 		System.out.println("6. Exit");
-		System.out.println("");
+		System.out.println();
 		System.out.print("Enter an option: ");
 		
-		Scanner keyboard = new Scanner(System.in);
+		Scanner keyboard3 = new Scanner(System.in);
 		int response;
 		do {
-			response = keyboard.nextInt();
+			response = keyboard3.nextInt();
 		} while (response < 1 || response > 6);
-		keyboard.close();
+		keyboard3.close();
 		return response;		
 	}
 	
@@ -244,6 +259,22 @@ public class GameDriver {
 	 */
 	public void setUserPrediction(Athlete userPrediction) {
 		this.userPrediction = userPrediction;
+	}
+
+
+	/**
+	 * @return the currentGame
+	 */
+	public Game getCurrentGame() {
+		return currentGame;
+	}
+
+
+	/**
+	 * @param currentGame the currentGame to set
+	 */
+	public void setCurrentGame(Game currentGame) {
+		this.currentGame = currentGame;
 	}
 
 }
