@@ -13,9 +13,7 @@ public class Game {
 	
 	
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
+
 	@Override
 	public String toString() {
 		return "Game [whichSport=" + whichSport + ", athletes=" + Arrays.toString(athletes) + ", referee=" + referee
@@ -50,13 +48,13 @@ public class Game {
 	
 	/**
 	 * Method to run a game in the Ozlympics
-	 * @return true if game successfully run
+	 * @return the winning athlete or null if game not successful
 	 */
-	public boolean runGame() {
+	public Athlete runGame() {
 		// Check number of competitors who can compete (4-8)
 		if (athletes.length < minCompetitors) {
 			System.out.println("There are not enough athletes competing in the current game. No result.");
-			return false;
+			return null;
 		}
 		
 		
@@ -73,7 +71,7 @@ public class Game {
 		
 		if (count < minCompetitors) {
 			System.out.println("There were not enough athletes able to compete in " + whichSport + ". No result.");
-			return false;
+			return null;
 		}
 				
 		
@@ -81,7 +79,7 @@ public class Game {
 		athletes = referee.scoreGame(athletes, scores);
 		referee.awardPoints(athletes);
 		resultExists = true;	
-		return true;
+		return athletes[0];
 	}
 	
 	/**

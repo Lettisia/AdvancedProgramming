@@ -40,7 +40,7 @@ public class GameDriverTest {
             	else
             		throw new Exception("Athlete type not found when attempting to create an athlete");
             	
-            	System.out.println(athletes[i].toString());
+//            	System.out.println(athletes[i].toString());
             	i++;
            }
         } catch (Exception e) {
@@ -60,7 +60,7 @@ public class GameDriverTest {
 
             while (s.hasNext()) {
             	officials[i] = new Official(s.next(), s.next(), s.nextInt(), s.next());
-            	System.out.println(officials[i].toString());
+//            	System.out.println(officials[i].toString());
             	i++;
            }
         }
@@ -84,11 +84,11 @@ public class GameDriverTest {
 		
 		
 		
-		System.out.println(games[1].printCompetitorNames()[0]);
-		System.out.println(games[1].printCompetitorNames()[1]);
-		System.out.println(games[1].printCompetitorNames()[2]);
-		System.out.println(games[1].numAthletes());
-		System.out.println(games[0].numAthletes());
+//		System.out.println(games[1].printCompetitorNames()[0]);
+//		System.out.println(games[1].printCompetitorNames()[1]);
+//		System.out.println(games[1].printCompetitorNames()[2]);
+//		System.out.println(games[1].numAthletes());
+//		System.out.println(games[0].numAthletes());
 		
 		
 		myGame = new GameDriver(games, officials, athletes);
@@ -96,8 +96,18 @@ public class GameDriverTest {
 
 	@Test
 	public void test() {
-		myGame.setCurrentGame(myGame.chooseGame());
-		System.out.println(myGame.getCurrentGame().toString());
+		
+		
+//		myGame.setCurrentGame(myGame.chooseGame());
+//		System.out.println(myGame.getCurrentGame().toString());
+		
+		myGame.setCurrentGame(games[0]);
+			
+		myGame.setUserPrediction(myGame.predictWinner());
+		
+		System.out.println(myGame.getUserPrediction());
+		
+		
 	}
 
 }

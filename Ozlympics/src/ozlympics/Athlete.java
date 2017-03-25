@@ -17,8 +17,10 @@ public class Athlete extends Participant {
 		String temp = "SuperAthlete, ";
 		if (this instanceof Swimmer)
 			temp = "Swimmer, ";
-//		else if (this instanceof Cyclist)
-//			temp = "Cyclist"
+		else if (this instanceof Cyclist)
+			temp = "Cyclist, ";
+		else if (this instanceof Runner)
+			temp = "Runner, ";
 		return temp + super.toString() + ", ";
 	}
 

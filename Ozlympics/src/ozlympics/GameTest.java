@@ -112,8 +112,6 @@ public class GameTest {
 //			System.out.println(result[j]);
 //		}
 		
-		boolean gameRun = myGame.runGame();
-		assertTrue(gameRun);
 
 		result = myGame.printResult();
 		for(int j=0; j<result.length; j++) {

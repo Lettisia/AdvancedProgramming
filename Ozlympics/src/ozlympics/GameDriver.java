@@ -24,6 +24,8 @@ public class GameDriver {
 	private Game currentGame;
 	private Athlete userPrediction;
 	
+	private static Scanner keyboard = new Scanner(System.in);
+	
 	
 
 	public GameDriver(Game [] games, Official [] officials, Athlete [] athletes) {
@@ -37,26 +39,36 @@ public class GameDriver {
 	
 	// Method for menu system and game play
 	public void startMenu() {
+		System.out.println("Welcome to Ozlympics!");
+		
 		int choice;
 		do{
 			choice = menuChoice();
 			
 			if (choice == 1) {
 				currentGame = chooseGame();
+				askToContinue();
 			}
 			else if (choice == 2) {
 				setUserPrediction(predictWinner());
+				askToContinue();
 			}
 			else if (choice == 3) {
 				startGame();
+				askToContinue();
 			}
 			else if (choice == 4) {
 				displayResults();
+				askToContinue();
 			}
 			else if (choice == 5) {
 				displayPoints();
+				askToContinue();
 			}
 		} while (choice != 6);
+		System.out.println();
+		System.out.println("Thank you for playing Ozlympics. Have a great day!");
+		keyboard.close();
 	}
 	
 	/**
@@ -66,6 +78,19 @@ public class GameDriver {
 		for (int i=0; i<athletes.length; i++) {
 			System.out.println(athletes[i].getName() + " received " + athletes[i].getPoints() + " points.");
 		}
+	}
+	
+	/**
+	 * Waits until the user presses enter to move on
+	 */
+	public void askToContinue() {
+		System.out.println("Press enter to continue ");
+		try
+		{
+			System.in.read();
+		}  
+		catch(Exception e)
+		{}  
 	}
 	
 	/**
@@ -85,49 +110,87 @@ public class GameDriver {
 	 * Runs the current game
 	 */
 	private void startGame() {
-		// TODO Auto-generated method stub
-		currentGame.runGame();
+		System.out.println();
+		if (currentGame == null) {
+			System.out.println("There is no game selected. Please select a game.");
+		}
+		else {
+			if (userPrediction != null) {
+				System.out.println("You have predicted that " + userPrediction.getName() + " will win.");
+				askToContinue();
+			}
+			Athlete winner = currentGame.runGame();
+			System.out.println();
+			String [] result = currentGame.printResult();
+			for( int i=0; i<result.length; i++) {
+				System.out.println(result[i]);
+			}
+			System.out.println();
+			if (userPrediction != null) {
+				if(winner == userPrediction) { 
+					System.out.println("Congratulations! You correctly predicted the winner.");
+					System.out.println();
+				} else { 
+					System.out.println("Sorry, your prediction was incorrect.");
+					System.out.println();
+				}
+			}
+		}
 	}
 
 	/**
 	 * Asks the user to select one of the athletes in the current game
 	 * @return the Athlete predicted to win by the user
 	 */
-	private Athlete predictWinner() {
+	public Athlete predictWinner() {
 		Athlete newWinner = null;
 		boolean done = false;
-		Scanner keyboard1 = new Scanner(System.in);
-		
-		System.out.println("The following athletes are competing in a " + currentGame.getWhichSport() + " race.");
-		String [] nameList = currentGame.printCompetitorNames();
-		
-		for(int i=0; i<nameList.length; i++) {
-			System.out.println(nameList[i]);
+		//		Scanner keyboard = new Scanner(System.in);
+
+		if (currentGame == null) {
+			System.out.println("There is no game selected. Please select a game.");
+			return null;
 		}
-		
-		System.out.println();
-		System.out.println("Who will win? ");
-		
-		do {
-			System.out.println("");
-			System.out.print("Enter the winner's number: " );
-			
-			int response = keyboard1.nextInt();
-			response--;
-			
-			if (response >= 0 && response < currentGame.numAthletes()) {
-				newWinner = currentGame.getAthletes()[response];
-				done = true;
-			}
-			
-			if (done == false) {
-				System.out.println("I couldn't find that Athlete.");
+		else {	
+			System.out.println();
+			System.out.println("The following athletes are competing in a " + currentGame.getWhichSport() + " race.");
+			String [] nameList = currentGame.printCompetitorNames();
+
+			for(int i=0; i<nameList.length; i++) {
+				System.out.println(nameList[i]);
 			}
 
-		} while (!done);
-		
-		keyboard1.close();
-		return newWinner;
+			System.out.println();
+			System.out.println("Who will win? ");
+
+			do {
+				System.out.println("");
+				System.out.print("Enter the winner's number: " );
+
+				while (!keyboard.hasNextInt()) {
+					System.out.print("Enter the winner's number: ");	
+					keyboard.next();
+				}
+				int response = keyboard.nextInt();
+
+				response--;
+				if (response >= 0 && response < currentGame.numAthletes()) {
+					newWinner = currentGame.getAthletes()[response];
+
+					System.out.println();
+					System.out.println("You have selected " + newWinner.getName() + ". Good luck! ");
+					done = true;
+				}
+
+				if (done == false) {
+					System.out.println("I couldn't find that Athlete.");
+				}
+
+			} while (!done);
+
+			System.out.println();
+			return newWinner;
+		}
 	}
 
 	/**
@@ -136,7 +199,7 @@ public class GameDriver {
 	 */
 	public Game chooseGame() {
 		boolean done = false;
-		Scanner keyboard2 = new Scanner(System.in);
+//		Scanner keyboard = new Scanner(System.in);
 		Game tryGame = null;
 		
 		System.out.print("\nHere are the current games: ");
@@ -148,10 +211,10 @@ public class GameDriver {
 		do {
 			System.out.println();
 			System.out.print("Enter the game id: " );
-			keyboard2 = new Scanner(System.in);
-			String response = keyboard2.next();
-			
-			System.out.println(response);
+//			keyboard = new Scanner(System.in);
+
+			String response = keyboard.next();
+//			System.out.println(response);
 
 			for(int i = 0; i < games.length && !done; i++) {
 				if (games[i].getGameID().equals(response)) { 
@@ -171,7 +234,6 @@ public class GameDriver {
 		// Remove current user prediction
 		setUserPrediction(null);
 		
-		keyboard2.close();
 		return tryGame;
 	}
 
@@ -188,14 +250,18 @@ public class GameDriver {
 		System.out.println("5. Display the points of all athletes");
 		System.out.println("6. Exit");
 		System.out.println();
-		System.out.print("Enter an option: ");
+//		System.out.print("Enter an option: ");
 		
-		Scanner keyboard3 = new Scanner(System.in);
-		int response;
+//		Scanner keyboard = new Scanner(System.in);
+		int response =0;
 		do {
-			response = keyboard3.nextInt();
+			System.out.print("Enter an option: ");
+			while (!keyboard.hasNextInt()) {
+				keyboard.next();
+				System.out.print("Enter an option: ");
+			}
+			response = keyboard.nextInt();
 		} while (response < 1 || response > 6);
-		keyboard3.close();
 		return response;		
 	}
 	
