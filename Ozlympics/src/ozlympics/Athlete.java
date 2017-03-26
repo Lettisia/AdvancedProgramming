@@ -2,7 +2,6 @@ package ozlympics;
 import java.util.Random;
 
 public class Athlete extends Participant {
-
 	private double points = 0;
 	
 	public Athlete(String userID, String name, int age, String state) {
@@ -10,28 +9,10 @@ public class Athlete extends Participant {
 		// TODO Auto-generated constructor stub
 	}
 	
-
-
-	@Override
-	public String toString() {
-		String temp = "SuperAthlete, ";
-		if (this instanceof Swimmer)
-			temp = "Swimmer, ";
-		else if (this instanceof Cyclist)
-			temp = "Cyclist, ";
-		else if (this instanceof Runner)
-			temp = "Runner, ";
-		return temp + super.toString() + ", ";
-	}
-
-
-
-
 	public Athlete(String userID, String name, int age, String state, double points) {
 		super(userID, name, age, state);
 		this.points = points;
 	}
-
 
 	public int compete(String sportName) throws WrongSportException {
 		int score = 0;
@@ -57,6 +38,18 @@ public class Athlete extends Participant {
 		return score;
 	}
 	
+	@Override
+	public String toString() {
+		String temp = "SuperAthlete, ";
+		if (this instanceof Swimmer)
+			temp = "Swimmer, ";
+		else if (this instanceof Cyclist)
+			temp = "Cyclist, ";
+		else if (this instanceof Runner)
+			temp = "Runner, ";
+		return temp + super.toString() + ", ";
+	}
+
 	/**
 	 * @return the points
 	 */
@@ -70,5 +63,4 @@ public class Athlete extends Participant {
 	public void setPoints(double points) {
 		this.points = points;
 	}
-	
 }

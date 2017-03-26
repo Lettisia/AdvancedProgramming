@@ -6,16 +6,6 @@ public abstract class Participant {
 	private int age;
 	private String state;
 	
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return userID + ", " + name + ", " + age + ", " + state;
-	}
-
-
 	public Participant(String userID, String name, int age, String state) {
 		this.userID = userID;
 		this.name = name;
@@ -23,6 +13,10 @@ public abstract class Participant {
 		this.state = state;
 	}
 	
+	@Override
+	public String toString() {
+		return userID + ", " + name + ", " + age + ", " + state;
+	}
 	
 	/**
 	 * @return the userID

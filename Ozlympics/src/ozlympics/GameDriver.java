@@ -1,6 +1,3 @@
-package ozlympics;
-import java.util.Scanner;
-
 /**
  * 
  * Not yet implemented
@@ -15,18 +12,16 @@ import java.util.Scanner;
  *
  */
 
+package ozlympics;
+import java.util.Scanner;
+
 public class GameDriver {
-	
+	private static Scanner keyboard = new Scanner(System.in);	
 	private Game [] games;
 	private Official [] officials;
 	private Athlete [] athletes;
-	
 	private Game currentGame;
 	private Athlete userPrediction;
-	
-	private static Scanner keyboard = new Scanner(System.in);
-	
-	
 
 	public GameDriver(Game [] games, Official [] officials, Athlete [] athletes) {
 		this.games = games;
@@ -35,14 +30,13 @@ public class GameDriver {
 		userPrediction = null;
 		currentGame = null;
 	}
-
 	
 	// Method for menu system and game play
 	public void startMenu() {
 		System.out.println("Welcome to Ozlympics!");
 		
 		int choice;
-		do{
+		do {
 			choice = menuChoice();
 			
 			if (choice == 1) {
@@ -66,9 +60,12 @@ public class GameDriver {
 				askToContinue();
 			}
 		} while (choice != 6);
+		
 		System.out.println();
 		System.out.println("Thank you for playing Ozlympics. Have a great day!");
-		keyboard.close();
+		if (keyboard != null) {
+				keyboard.close();
+		}
 	}
 	
 	/**
@@ -83,14 +80,11 @@ public class GameDriver {
 	/**
 	 * Waits until the user presses enter to move on
 	 */
-	public void askToContinue() {
+	private void askToContinue() {
 		System.out.println("Press enter to continue ");
-		try
-		{
+		try {
 			System.in.read();
-		}  
-		catch(Exception e)
-		{}  
+		} catch(Exception e) {}
 	}
 	
 	/**
@@ -113,11 +107,10 @@ public class GameDriver {
 		System.out.println();
 		if (currentGame == null) {
 			System.out.println("There is no game selected. Please select a game.");
-		}
-		else {
+		} else {
 			if (userPrediction != null) {
 				System.out.println("You have predicted that " + userPrediction.getName() + " will win.");
-				askToContinue();
+//				askToContinue();
 			}
 			Athlete winner = currentGame.runGame();
 			System.out.println();
@@ -134,6 +127,7 @@ public class GameDriver {
 					System.out.println("Sorry, your prediction was incorrect.");
 					System.out.println();
 				}
+				userPrediction = null; // User prediction can only be used for one game
 			}
 		}
 	}
@@ -142,16 +136,14 @@ public class GameDriver {
 	 * Asks the user to select one of the athletes in the current game
 	 * @return the Athlete predicted to win by the user
 	 */
-	public Athlete predictWinner() {
+	private Athlete predictWinner() {
 		Athlete newWinner = null;
 		boolean done = false;
-		//		Scanner keyboard = new Scanner(System.in);
 
 		if (currentGame == null) {
 			System.out.println("There is no game selected. Please select a game.");
 			return null;
-		}
-		else {	
+		} else {	
 			System.out.println();
 			System.out.println("The following athletes are competing in a " + currentGame.getWhichSport() + " race.");
 			String [] nameList = currentGame.printCompetitorNames();
@@ -171,9 +163,10 @@ public class GameDriver {
 					System.out.print("Enter the winner's number: ");	
 					keyboard.next();
 				}
+				
 				int response = keyboard.nextInt();
-
 				response--;
+				
 				if (response >= 0 && response < currentGame.numAthletes()) {
 					newWinner = currentGame.getAthletes()[response];
 
@@ -181,13 +174,12 @@ public class GameDriver {
 					System.out.println("You have selected " + newWinner.getName() + ". Good luck! ");
 					done = true;
 				}
-
+				
 				if (done == false) {
 					System.out.println("I couldn't find that Athlete.");
 				}
-
 			} while (!done);
-
+			
 			System.out.println();
 			return newWinner;
 		}
@@ -197,9 +189,8 @@ public class GameDriver {
 	 * Displays a menu so the user can select a game to run
 	 * @return the selected game
 	 */
-	public Game chooseGame() {
+	private Game chooseGame() {
 		boolean done = false;
-//		Scanner keyboard = new Scanner(System.in);
 		Game tryGame = null;
 		
 		System.out.print("\nHere are the current games: ");
@@ -207,18 +198,16 @@ public class GameDriver {
 			System.out.print(games[i].getGameID() + " ");
 		}
 		
-		
 		do {
 			System.out.println();
 			System.out.print("Enter the game id: " );
-//			keyboard = new Scanner(System.in);
-
 			String response = keyboard.next();
-//			System.out.println(response);
 
 			for(int i = 0; i < games.length && !done; i++) {
 				if (games[i].getGameID().equals(response)) { 
 					tryGame = games[i];
+					System.out.println();
+					System.out.println("You have selected " + tryGame.getWhichSport() + " race " + tryGame.getGameID() + ". ");
 					done = true;							
 				}
 			}
@@ -228,7 +217,6 @@ public class GameDriver {
 				//System.out.print("Would you like to create a new game (y/n)? ");
 				System.out.println("I couldn't find that game.");
 			}
-
 		} while (!done);
 		
 		// Remove current user prediction
@@ -252,7 +240,6 @@ public class GameDriver {
 		System.out.println();
 //		System.out.print("Enter an option: ");
 		
-//		Scanner keyboard = new Scanner(System.in);
 		int response =0;
 		do {
 			System.out.print("Enter an option: ");

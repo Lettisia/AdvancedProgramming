@@ -13,7 +13,9 @@ public class Runner extends Athlete {
 
 	@Override
 	public int compete(String sportName) throws WrongSportException {
-		if(sportName != "Running") throw new WrongSportException("This athlete can only run. ");
+		if(sportName != "Running") {
+			throw new WrongSportException("This athlete can only run. ");
+		}
 		
 		// Generate a random integer from 10 to 20
 		Random randomGenerator = new Random();

@@ -1,26 +1,14 @@
-/**
- * 
- */
 package ozlympics;
 
 import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.Scanner;
 
-/**
- * @author letti
- *
- */
 public class GameTest {
 	private static Athlete [] athletes;
 	private static Official [] officials;
@@ -30,27 +18,23 @@ public class GameTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-
 		Scanner s = null;
 		athletes = new Athlete[12];
 		officials = new Official[3];
         try {
+            int i = 0;
             s = new Scanner(new BufferedReader(new FileReader("athletes.txt")));
             s.useDelimiter(",\\s*");
-            int i = 0;
 
             while (s.hasNext()) {
             	String sport = s.next();
-
             	if (sport.equals("SuperAthlete")) {
             		athletes[i] = new Athlete(s.next(), s.next(), s.nextInt(), s.next());
-            	}
-            	else if (sport.equals("Swimmer")) {
+            	} else if (sport.equals("Swimmer")) {
             		athletes[i] = new Swimmer(s.next(), s.next(), s.nextInt(), s.next());
+           		} else {
+           			throw new Exception("Athlete type not found when attempting to create an athlete");
            		}
-            	else
-            		throw new Exception("Athlete type not found when attempting to create an athlete");
-            	
             	System.out.println(athletes[i].toString());
             	i++;
            }
@@ -62,7 +46,6 @@ public class GameTest {
                 s.close();
             }
         }
-        
         
         try {
             s = new Scanner(new BufferedReader(new FileReader("officials.txt")));
@@ -79,10 +62,7 @@ public class GameTest {
                 s.close();
             }
         }
-		
-		
 	}
-		
 
 	@Test
 	public void test() throws Exception {
@@ -111,8 +91,7 @@ public class GameTest {
 //		for(int j=0; j<result.length; j++) {
 //			System.out.println(result[j]);
 //		}
-		
-
+	
 		result = myGame.printResult();
 		for(int j=0; j<result.length; j++) {
 			System.out.println(result[j]);
@@ -121,12 +100,5 @@ public class GameTest {
 		for(int j=0; j<result.length; j++) {
 			System.out.println(result[j]);
 		}
-		
 	}
-
-	@Test
-	public void testOfficial() throws Exception {
-		
-	}
-
 }

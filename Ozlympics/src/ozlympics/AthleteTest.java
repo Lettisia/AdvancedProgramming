@@ -1,11 +1,6 @@
 package ozlympics;
 
 import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AthleteTest {
@@ -17,11 +12,8 @@ public class AthleteTest {
 		
 		Athlete swim = new Swimmer("JMswim", "John Malkovich", 26, "QLD");
 		System.out.println(swim.toString());
-		
-		
-		for (int i=0; i<1000; i++) {
 			
-		
+		for (int i=0; i<1000; i++) {
 			int samPoints = sam.compete("Swimming");
 			System.out.println(samPoints);
 			assertTrue(samPoints <= 200 && samPoints >=100);
@@ -37,9 +29,7 @@ public class AthleteTest {
 			samPoints = sam.compete("Cycling");
 			System.out.println(samPoints);	
 			assertTrue(samPoints <= 800 && samPoints >=500);
-
-	//	System.out.println(swim.compete("Running"));
+			//	System.out.println(swim.compete("Running")); //Shouldn't work
 		}
 	}
-
 }

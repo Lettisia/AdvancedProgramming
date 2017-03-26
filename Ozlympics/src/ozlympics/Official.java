@@ -10,7 +10,7 @@ public class Official extends Participant {
 	}
 	
 	/**
-	 * Orders athletes based on scores. Winner is athletes[0]. 
+	 * Orders athletes based on scores. Winner is athletes[0] when returned. 
 	 * 
 	 * @param athletes
 	 * @param scores
@@ -25,10 +25,8 @@ public class Official extends Participant {
 			ordered[i] = athletes[minIndex];
 			scores[minIndex] = Integer.MAX_VALUE;   //no longer the minimum	
 		}
-		
 		return ordered;
 	}
-	
 	
 	/**
 	 * Allocates points to winning athletes based on contents of WINNINGPOINTS
@@ -52,11 +50,11 @@ public class Official extends Participant {
 	 */
 	private int find(int[] array, int value) {
 	    for(int i=0; i<array.length; i++) {
-	         if(array[i] == value)
-	             return i;
+	         if(array[i] == value) {
+	        	 return i;
+	         }
 	    }
 	    return -1;
 	}
-
 }
 

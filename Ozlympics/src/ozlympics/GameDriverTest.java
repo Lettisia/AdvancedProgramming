@@ -17,7 +17,6 @@ public class GameDriverTest {
 	private static Game [] games;
 	private GameDriver myGame;
 	
-	
 	@Before
 	public void setUp() throws Exception {
 		Scanner s = null;
@@ -52,8 +51,7 @@ public class GameDriverTest {
             }
         }
         
-        
-        try {
+         try {
             s = new Scanner(new BufferedReader(new FileReader("officials.txt")));
             s.useDelimiter(",\\s*");
             int i = 0;
@@ -82,32 +80,21 @@ public class GameDriverTest {
 		games[1].setAthletes(Arrays.copyOfRange(athletes, 0, 4));
 		games[1].setReferee(officials[1]);		
 		
-		
-		
 //		System.out.println(games[1].printCompetitorNames()[0]);
 //		System.out.println(games[1].printCompetitorNames()[1]);
 //		System.out.println(games[1].printCompetitorNames()[2]);
 //		System.out.println(games[1].numAthletes());
 //		System.out.println(games[0].numAthletes());
-		
-		
+
 		myGame = new GameDriver(games, officials, athletes);
 	}
 
 	@Test
-	public void test() {
-		
-		
+	public void test() {	
 //		myGame.setCurrentGame(myGame.chooseGame());
 //		System.out.println(myGame.getCurrentGame().toString());
-		
 		myGame.setCurrentGame(games[0]);
-			
-		myGame.setUserPrediction(myGame.predictWinner());
-		
+//		myGame.setUserPrediction(myGame.predictWinner());
 		System.out.println(myGame.getUserPrediction());
-		
-		
 	}
-
 }

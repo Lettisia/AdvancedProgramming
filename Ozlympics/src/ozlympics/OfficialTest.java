@@ -48,26 +48,22 @@ public class OfficialTest {
 
 	@Test
 	public void test() {
-		int count = 0;
 		int [] scores = new int [athletes.length];
 		for(int i = 0; i<athletes.length; i++) {
 			try {
 				scores[i] = athletes[i].compete("Swimming");
-				count++;
-			}
-			catch (WrongSportException e) {}
+			} catch (WrongSportException e) {}
 		}
 		
-		for (int i=0; i< athletes.length; i++) 
+		for (int i=0; i< athletes.length; i++) {
 			System.out.println(scores[i] + " " + athletes[i].getName());			
-		
-		
+		}
+				
 		Athlete [] sorted = theBoss.scoreGame(athletes, scores);
 		theBoss.awardPoints(sorted);
 		
-		for (int i=0; i< sorted.length; i++) 
+		for (int i=0; i< sorted.length; i++) {
 			System.out.println(sorted[i].toString() + sorted[i].getPoints());
-		
+		}
 	}
-
 }
