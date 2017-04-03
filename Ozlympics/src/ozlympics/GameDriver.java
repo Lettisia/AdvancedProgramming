@@ -1,20 +1,13 @@
-/**
- * 
- * Not yet implemented
- * - Option to cancel a menu item once selected and return to main menu.
- * - startGame() method to run games
- * - Nice menu messages like 'Welcome to Ozlympics' etc.
- * 
- * Assumption:
- * - the user can only predict the result of the current game. A new prediction will replace the old one.
- * 
- * @author lettisia
- *
- */
-
 package ozlympics;
+
 import java.util.Scanner;
 
+/**
+ * Contains the menu system for Ozlympics game and keeps track of games, athletes and user predictions.
+ * 
+ * @author Lettisia George
+ *
+ */
 public class GameDriver {
 	private static Scanner keyboard = new Scanner(System.in);	
 	private Game [] games;
@@ -24,14 +17,16 @@ public class GameDriver {
 	private Athlete userPrediction;
 
 	public GameDriver(Game [] games, Official [] officials, Athlete [] athletes) {
-		this.games = games;
+		this.setGames(games);
 		this.setOfficials(officials);
 		this.setAthletes(athletes);
 		userPrediction = null;
 		currentGame = null;
 	}
 	
-	// Method for menu system and game play
+	/**
+	 * Method for menu system and game play
+	 */
 	public void startMenu() {
 		System.out.println("Welcome to Ozlympics!");
 		
@@ -42,20 +37,16 @@ public class GameDriver {
 			if (choice == 1) {
 				currentGame = chooseGame();
 				askToContinue();
-			}
-			else if (choice == 2) {
+			} else if (choice == 2) {
 				setUserPrediction(predictWinner());
 				askToContinue();
-			}
-			else if (choice == 3) {
+			} else if (choice == 3) {
 				startGame();
 				askToContinue();
-			}
-			else if (choice == 4) {
+			} else if (choice == 4) {
 				displayResults();
 				askToContinue();
-			}
-			else if (choice == 5) {
+			} else if (choice == 5) {
 				displayPoints();
 				askToContinue();
 			}
@@ -112,13 +103,16 @@ public class GameDriver {
 				System.out.println("You have predicted that " + userPrediction.getName() + " will win.");
 //				askToContinue();
 			}
+			
 			Athlete winner = currentGame.runGame();
 			System.out.println();
 			String [] result = currentGame.printResult();
+			
 			for( int i=0; i<result.length; i++) {
 				System.out.println(result[i]);
 			}
 			System.out.println();
+			
 			if (userPrediction != null) {
 				if(winner == userPrediction) { 
 					System.out.println("Congratulations! You correctly predicted the winner.");
@@ -219,7 +213,7 @@ public class GameDriver {
 			}
 		} while (!done);
 		
-		// Remove current user prediction
+		// Remove current user prediction as it applied to the previous game.
 		setUserPrediction(null);
 		
 		return tryGame;
@@ -251,19 +245,13 @@ public class GameDriver {
 		} while (response < 1 || response > 6);
 		return response;		
 	}
-	
-	
-	
-	
-	
+		
 	/**
 	 * @return the games
 	 */
 	public Game [] getGames() {
 		return games;
 	}
-
-
 
 	/**
 	 * @param games the games to set
@@ -314,7 +302,6 @@ public class GameDriver {
 		this.userPrediction = userPrediction;
 	}
 
-
 	/**
 	 * @return the currentGame
 	 */
@@ -322,12 +309,10 @@ public class GameDriver {
 		return currentGame;
 	}
 
-
 	/**
 	 * @param currentGame the currentGame to set
 	 */
 	public void setCurrentGame(Game currentGame) {
 		this.currentGame = currentGame;
 	}
-
 }

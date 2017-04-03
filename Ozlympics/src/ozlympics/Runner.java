@@ -2,6 +2,11 @@ package ozlympics;
 
 import java.util.Random;
 
+/**
+ * Represents a Runner who can compete in Running events.
+ * 
+ * @author Lettisia George
+ */
 public class Runner extends Athlete {
 	public Runner(String userID, String name, int age, String state) {
 		super(userID, name, age, state);

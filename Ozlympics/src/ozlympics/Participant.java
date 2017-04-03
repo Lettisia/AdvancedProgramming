@@ -1,5 +1,10 @@
 package ozlympics;
 
+/**
+ * Contains data common to all participants in the Ozlympics game, namely userID, name, age and state.
+ * @author Lettisia George
+ *
+ */
 public abstract class Participant {
 	private String userID;
 	private String name;
@@ -66,5 +71,4 @@ public abstract class Participant {
 	public void setState(String state) {
 		this.state = state;
 	}
-
 }

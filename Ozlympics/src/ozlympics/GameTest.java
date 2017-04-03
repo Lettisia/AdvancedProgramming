@@ -9,6 +9,10 @@ import java.io.FileReader;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * @author Lettisia George
+ *
+ */
 public class GameTest {
 	private static Athlete [] athletes;
 	private static Official [] officials;
@@ -26,7 +30,7 @@ public class GameTest {
             s = new Scanner(new BufferedReader(new FileReader("athletes.txt")));
             s.useDelimiter(",\\s*");
 
-            while (s.hasNext()) {
+            while (s.hasNext() && i < 12) {
             	String sport = s.next();
             	if (sport.equals("SuperAthlete")) {
             		athletes[i] = new Athlete(s.next(), s.next(), s.nextInt(), s.next());
@@ -67,8 +71,8 @@ public class GameTest {
 	@Test
 	public void test() throws Exception {
 		Game myGame = new Game();
-		myGame.setAthletes(Arrays.copyOfRange(athletes, 0, 9));
-//		assertEquals(8, myGame.numAthletes());
+		myGame.setAthletes(Arrays.copyOfRange(athletes, 2, 12));
+		assertEquals(8, myGame.numAthletes());
 		
 		myGame.setReferee(officials[0]);
 		myGame.setGameID("S01");

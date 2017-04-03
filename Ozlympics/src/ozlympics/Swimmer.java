@@ -1,6 +1,12 @@
 package ozlympics;
+
 import java.util.Random;
 
+/**
+ * Represents a Swimmer who can compete in Swimming events.
+ * 
+ * @author Lettisia George
+ */
 public class Swimmer extends Athlete {
 		
 	public Swimmer(String userID, String name, int age, String state) {
@@ -9,7 +15,6 @@ public class Swimmer extends Athlete {
 	
 	public Swimmer(String userID, String name, int age, String state, double points) {
 		super(userID, name, age, state, points);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

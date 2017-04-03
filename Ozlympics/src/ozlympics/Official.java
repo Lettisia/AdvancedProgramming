@@ -2,6 +2,11 @@ package ozlympics;
 
 import java.util.Arrays;
 
+/**
+ * Represents the referee of an Ozlympics game. Officials are responsible for awarding points for games. 
+ * 
+ * @author Lettisia George
+ */
 public class Official extends Participant {
 	private static final int[] WINNINGPOINTS = {5,2,1}; //points for 1st, 2nd and 3rd place
 
@@ -29,9 +34,10 @@ public class Official extends Participant {
 	}
 	
 	/**
-	 * Allocates points to winning athletes based on contents of WINNINGPOINTS
+	 * Allocates points to winning athletes based on contents of WINNINGPOINTS. 
+	 * Assumes athletes are already sorted based on their results in a game. Winner is index 0.
+	 * 
 	 * @param athletes Array of athletes sorted by score in a game
-	 * @pre Assumes athletes are sorted based on their results in a game. Winner is index 0.
 	 */
 	public void awardPoints(Athlete [] athletes) {
 		for( int i=0; i<WINNINGPOINTS.length; i++) {
@@ -44,7 +50,7 @@ public class Official extends Participant {
 	 * @param value
 	 * @return index of array with value.
 	 * From StackOverflow
-	 * @author Jamie CUrtis
+	 * @author Jamie Curtis
 	 * Accesssed: 24/03/2017
 	 * URL: http://stackoverflow.com/questions/6171663/how-to-find-index-of-int-array-in-java-from-a-given-value
 	 */

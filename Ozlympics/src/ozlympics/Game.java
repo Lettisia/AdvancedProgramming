@@ -1,19 +1,21 @@
-/**
- * 
- */
-
 package ozlympics;
 
 import java.util.Arrays;
 
+/**
+ * Represents a single Ozlympics Game in a particular sport with athletes and a referee.
+ * 
+ * @author Lettisia George
+ *
+ */
 public class Game {
+	private static final int MAX_COMPETITORS = 8;
+	private static final int MIN_COMPETITORS = 4;	
 	private String whichSport;
 	private Athlete [] athletes;
 	private Official referee;
 	private String gameID; 
 	private boolean resultExists = false;
-	private final int maxCompetitors = 8;
-	private final int minCompetitors = 4;	
 	
 	public Game() {	}
 
@@ -55,7 +57,7 @@ public class Game {
 		int [] scores = new int [athletes.length];		
 		
 		// Check number of competitors who can compete (4-8)
-		if (athletes.length < minCompetitors) {
+		if (athletes.length < MIN_COMPETITORS) {
 			System.out.println("There are not enough athletes competing in the current game. No result.");
 			return null;
 		}
@@ -67,7 +69,7 @@ public class Game {
 				count++;
 			} catch (WrongSportException e) {	}
 		}
-		if (count < minCompetitors) {
+		if (count < MIN_COMPETITORS) {
 			System.out.println("There were not enough athletes able to compete in " + whichSport + ". No result.");
 			return null;
 		}
@@ -119,7 +121,7 @@ public class Game {
 	 * @param athletes the athletes to set 
 	 */
 	public void setAthletes(Athlete [] athletes) {
-		if (athletes.length > maxCompetitors) {
+		if (athletes.length > MAX_COMPETITORS) {
 			this.athletes = Arrays.copyOfRange(athletes, 0, 8);
 		} else {
 			this.athletes = athletes;

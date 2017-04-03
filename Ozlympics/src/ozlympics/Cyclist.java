@@ -2,6 +2,11 @@ package ozlympics;
 
 import java.util.Random;
 
+/**
+ * Represents a Cyclist who can compete in Cycling events.
+ * 
+ * @author Lettisia George
+ */
 public class Cyclist extends Athlete {
 	
 	public Cyclist(String userID, String name, int age, String state) {
