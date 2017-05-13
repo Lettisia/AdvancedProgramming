@@ -154,13 +154,15 @@ public class DataMonkey {
 				String nowString = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SS"));
 				writer.println(game.getGameID() + "," + game.getReferee().getUserID() + "," + nowString);
 				
-
+				List<Pair<Integer, Athlete>> list = game.getScoreAthlete();
 				
-				for (int i = 0; i < game.getAthletes().length; i++) {
-					Athlete player = game.getAthletes()[i];
-					writer.println(player.getUserID() + "," + game.getScores()[i] + "," + player.getPoints());
-				}
-				
+				ListIterator<Pair<Integer, Athlete>> it2 = list.listIterator();
+				Pair<Integer, Athlete> temp;
+				while (it2.hasNext()) {
+					temp = it2.next();
+					writer.println(temp.getSecond().getUserID() + "," + temp.getFirst() + "," 
+									+ temp.getSecond().getPoints());
+				}				
 				writer.println();
 			}
 			
@@ -172,7 +174,7 @@ public class DataMonkey {
             }
         }
 	}
-
+	
 	public void saveDBParticipants() {
 		Connection c = null;
 		try {

@@ -3,7 +3,7 @@
  * @author Lettisia George
  *
  */
-public abstract class Participant implements Comparable {
+public abstract class Participant implements Comparable<Participant> {
 	private String userID;
 	private String name;
 	private int age;
@@ -22,8 +22,8 @@ public abstract class Participant implements Comparable {
 	}
 	
 	@Override
-	public int compareTo(Object arg0) {
-		return this.getName().compareTo(((Participant)arg0).getName());
+	public int compareTo(Participant arg0) {
+		return this.getName().compareTo(arg0.getName());
 	}
 	
 	/**

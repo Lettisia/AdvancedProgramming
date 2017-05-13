@@ -1,6 +1,5 @@
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -34,7 +33,7 @@ public class Official extends Participant {
 		return ordered;
 	}
 	
-	public void scoreGame(List<Pair> pairList) {
+	public void scoreGame(List<Pair<Integer,Athlete>> pairList) {
 		Collections.sort(pairList);
 	}
 	
@@ -50,11 +49,11 @@ public class Official extends Participant {
 		}
 	}
 	
-	public void awardPoints(List<Pair> pairList) {
+	public void awardPoints(List<Pair<Integer,Athlete>> pairList) {
 		Collections.sort(pairList);
 		for( int i=0; i<WINNINGPOINTS.length; i++) {
-			double newPoints = ((Athlete)pairList.get(i).second).getPoints() + WINNINGPOINTS[i];
-			((Athlete)pairList.get(i).second).setPoints(newPoints);
+			double newPoints = ((Athlete)pairList.get(i).getSecond()).getPoints() + WINNINGPOINTS[i];
+			((Athlete)pairList.get(i).getSecond()).setPoints(newPoints);
 		}
 	}
 	

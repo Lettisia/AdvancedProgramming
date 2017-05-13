@@ -12,10 +12,10 @@
 
 public class Pair<FIRST, SECOND> implements Comparable<Pair<FIRST, SECOND>> {
 
-    public final FIRST first;
-    public final SECOND second;
+    private FIRST first;
+    private SECOND second;
 
-    private Pair(FIRST first, SECOND second) {
+    public Pair(FIRST first, SECOND second) {
         this.first = first;
         this.second = second;
     }
@@ -65,4 +65,20 @@ public class Pair<FIRST, SECOND> implements Comparable<Pair<FIRST, SECOND>> {
     public String toString() {
         return "(" + first + ", " + second + ')';
     }
+
+	public FIRST getFirst() {
+		return first;
+	}
+
+	public void setFirst(FIRST first) {
+		this.first = first;
+	}
+
+	public SECOND getSecond() {
+		return second;
+	}
+
+	public void setSecond(SECOND second) {
+		this.second = second;
+	}
 }
