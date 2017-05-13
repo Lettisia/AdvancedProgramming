@@ -1,5 +1,3 @@
-package ozlympics;
-
 /**
  * Thrown when athlete is required to play a sport that they cannot compete in.
  * @author Lettisia George

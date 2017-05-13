@@ -1,5 +1,3 @@
-package ozlympics;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -18,7 +16,7 @@ public class Data {
 	private Athlete [] athletes;
 	private Official [] officials;
 	private Game [] games;
-	private String athleteFile = "athlete.txt";
+	private String athleteFile = "athletes.txt";
 	private String officialFile = "officials.txt";
 	
 	public Data() {
@@ -43,12 +41,11 @@ public class Data {
             	} else if (sport.equals("Runner")) {
                		athletes[i] = new Runner(s.next(), s.next(), s.nextInt(), s.next());
             	} else {
-            		throw new Exception("Athlete type not found when attempting to create an athlete");
+            		throw new WrongSportException("Athlete type not found when attempting to create an athlete");
             	}
             	i++;
            }
         } catch (Exception e) {
-			System.out.println(e.toString());
 			e.printStackTrace();
 		} finally {
             if (s != null) {
@@ -66,7 +63,7 @@ public class Data {
             	i++;
             }
         } catch (FileNotFoundException e) {
-        	System.out.println(e.toString());
+        	e.printStackTrace();
         	return;
 		} finally {
             if (s != null) {
@@ -77,19 +74,39 @@ public class Data {
         //Setup some games
         games = new Game [4]; 
 		games[0] = new Game("Swimming", "S01");
-		games[0].setAthletes(Arrays.copyOfRange(athletes, 2,12));
+		try {
+			games[0].setAthletes(Arrays.copyOfRange(athletes, 2,12));
+		} catch (GameFullException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		games[0].setReferee(officials[0]);
 		
 		games[1] = new Game("Running", "R01");
-		games[1].setAthletes(Arrays.copyOfRange(athletes, 0, 4));
+		try {
+			games[1].setAthletes(Arrays.copyOfRange(athletes, 0, 4));
+		} catch (GameFullException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		games[1].setReferee(officials[2]);		
 		
 		games[2] = new Game("Cycling", "C01");
-		games[2].setAthletes(Arrays.copyOfRange(athletes, 12, 20));
+		try {
+			games[2].setAthletes(Arrays.copyOfRange(athletes, 12, 20));
+		} catch (GameFullException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		games[2].setReferee(officials[1]);	
 		
 		games[3] = new Game("Running", "R02");
-		games[3].setAthletes(Arrays.copyOfRange(athletes, 21, 28));
+		try {
+			games[3].setAthletes(Arrays.copyOfRange(athletes, 21, 28));
+		} catch (GameFullException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		games[3].setReferee(officials[2]);	
 	}
 	

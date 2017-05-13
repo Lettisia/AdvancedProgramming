@@ -1,13 +1,8 @@
-package ozlympics;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Represents a single Ozlympics Game in a particular sport with athletes and a referee.
+ * may need an addAthlete() method later
  * 
  * @author Lettisia George
  *
@@ -20,7 +15,6 @@ public class Game {
 	private Official referee;
 	private String gameID; 
 	private boolean resultExists = false;
-	private int [] scores;
 	
 	public Game() {	}
 
@@ -57,54 +51,38 @@ public class Game {
 	 * Method to run a game in the Ozlympics
 	 * @return the winning athlete or null if game not successful
 	 * @throws NotEnoughAthletesException 
+	 * @throws NoRefereeException 
 	 */
-	public Athlete runGame() throws NotEnoughAthletesException {
+	public Athlete runGame() throws NotEnoughAthletesException, NoRefereeException {
 		int count = 0;
-		scores = new int [athletes.length];	
-		List <Pair> pairList = new ArrayList<Pair>();
+		int [] scores = new int [athletes.length];		
 		
 		// Check number of competitors who can compete (4-8)
 		if (athletes.length < MIN_COMPETITORS) {
-			System.out.println("There are not enough athletes competing in the current game. No result.");
-			return null;
+			//System.out.println("There are not enough athletes competing in the current game. No result.");
+			throw new NotEnoughAthletesException("There are not enough athletes competing in the current game. No result.");
+		}
+		
+		if (referee == null) {
+			throw new NoRefereeException();
 		}
 		
 		// Get points for each competitor
 		for (int i = 0; i<athletes.length; i++) {
 			try {
 				scores[i] = athletes[i].compete(whichSport);
-				Pair temp = Pair.of(scores[i], athletes[i]);
-				pairList.add(temp);
 				count++;
 			} catch (WrongSportException e) {	}
 		}
 		if (count < MIN_COMPETITORS) {
-			throw new NotEnoughAthletesException();
-		}
-		for (int i : scores) {
-			System.out.println(i);
-		}
-		
-		ListIterator<Pair> it = pairList.listIterator();
-		while (it.hasNext()) {
-			System.out.println(it.next());
+			//System.out.println("There were not enough athletes able to compete in " + whichSport + ". No result.");
+			//return null;
+			throw new NotEnoughAthletesException("There were not enough athletes able to compete in " + whichSport + ". No result.");
 		}
 		
 		// Ask official to rank athletes and generate scores
-		referee.scoreGame(pairList);
-		it = pairList.listIterator();
-		while (it.hasNext()) {
-			System.out.println(it.next());
-		}
-		
-		
-		referee.scoreGame(athletes, scores);
-		for( int i : scores) {
-			System.out.println(i);
-		}
-		Arrays.sort(scores);
+		athletes = referee.scoreGame(athletes, scores);
 		referee.awardPoints(athletes);
-		referee.awardPoints(pairList);
 		resultExists = true;	
 		return athletes[0];
 	}
@@ -147,10 +125,12 @@ public class Game {
 	/**
 	 * If there are more than 8 athletes only the first 8 will be added.
 	 * @param athletes the athletes to set 
+	 * @throws GameFullException 
 	 */
-	public void setAthletes(Athlete [] athletes) {
+	public void setAthletes(Athlete [] athletes) throws GameFullException {
 		if (athletes.length > MAX_COMPETITORS) {
-			this.athletes = Arrays.copyOfRange(athletes, 0, 8);
+			//this.athletes = Arrays.copyOfRange(athletes, 0, 8);
+			throw new GameFullException();
 		} else {
 			this.athletes = athletes;
 		}
@@ -192,13 +172,5 @@ public class Game {
 	 */
 	public void setResultExists(boolean resultExists) {
 		this.resultExists = resultExists;
-	}
-
-	public int[] getScores() {
-		return scores;
-	}
-
-	public void setScores(int[] scores) {
-		this.scores = scores;
 	}
 }

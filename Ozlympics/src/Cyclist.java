@@ -1,5 +1,3 @@
-package ozlympics;
-
 import java.util.Random;
 
 /**

@@ -1,11 +1,9 @@
-package ozlympics;
-
 /**
  * Contains data common to all participants in the Ozlympics game, namely userID, name, age and state.
  * @author Lettisia George
  *
  */
-public abstract class Participant implements Comparable {
+public abstract class Participant {
 	private String userID;
 	private String name;
 	private int age;
@@ -21,11 +19,6 @@ public abstract class Participant implements Comparable {
 	@Override
 	public String toString() {
 		return userID + ", " + name + ", " + age + ", " + state;
-	}
-	
-	@Override
-	public int compareTo(Object arg0) {
-		return this.getName().compareTo(((Participant)arg0).getName());
 	}
 	
 	/**

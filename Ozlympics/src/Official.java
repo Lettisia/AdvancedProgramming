@@ -1,9 +1,4 @@
-package ozlympics;
-
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Represents the referee of an Ozlympics game. Officials are responsible for awarding points for games. 
@@ -36,10 +31,6 @@ public class Official extends Participant {
 		return ordered;
 	}
 	
-	public void scoreGame(List<Pair> pairList) {
-		Collections.sort(pairList);
-	}
-	
 	/**
 	 * Allocates points to winning athletes based on contents of WINNINGPOINTS. 
 	 * Assumes athletes are already sorted based on their results in a game. Winner is index 0.
@@ -49,14 +40,6 @@ public class Official extends Participant {
 	public void awardPoints(Athlete [] athletes) {
 		for( int i=0; i<WINNINGPOINTS.length; i++) {
 			athletes[i].setPoints(athletes[i].getPoints() + WINNINGPOINTS[i]);
-		}
-	}
-	
-	public void awardPoints(List<Pair> pairList) {
-		Collections.sort(pairList);
-		for( int i=0; i<WINNINGPOINTS.length; i++) {
-			double newPoints = ((Athlete)pairList.get(i).second).getPoints() + WINNINGPOINTS[i];
-			((Athlete)pairList.get(i).second).setPoints(newPoints);
 		}
 	}
 	
@@ -77,6 +60,5 @@ public class Official extends Participant {
 	    }
 	    return -1;
 	}
-
 }
 

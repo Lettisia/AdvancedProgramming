@@ -1,5 +1,3 @@
-package ozlympics;
-
 /**
  * Main class which reads in data and starts game.
  * 

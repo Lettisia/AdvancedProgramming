@@ -1,5 +1,3 @@
-package ozlympics;
-
 import java.util.Scanner;
 
 /**
@@ -99,30 +97,39 @@ public class GameDriver {
 		if (currentGame == null) {
 			System.out.println("There is no game selected. Please select a game.");
 		} else {
-			if (userPrediction != null) {
-				System.out.println("You have predicted that " + userPrediction.getName() + " will win.");
-//				askToContinue();
-			}
-			
-			Athlete winner = currentGame.runGame();
-			System.out.println();
-			String [] result = currentGame.printResult();
-			
-			for( int i=0; i<result.length; i++) {
-				System.out.println(result[i]);
-			}
-			System.out.println();
-			
-			if (userPrediction != null) {
-				if(winner == userPrediction) { 
-					System.out.println("Congratulations! You correctly predicted the winner.");
-					System.out.println();
-				} else { 
-					System.out.println("Sorry, your prediction was incorrect.");
-					System.out.println();
+			try {
+				if (userPrediction != null) {
+					System.out.println("You have predicted that " + userPrediction.getName() + " will win.");
+					//				askToContinue();
 				}
-				userPrediction = null; // User prediction can only be used for one game
+
+			
+				Athlete winner = currentGame.runGame();
+				System.out.println();
+				String [] result = currentGame.printResult();
+
+				for( int i=0; i<result.length; i++) {
+					System.out.println(result[i]);
+				}
+				System.out.println();
+
+				if (userPrediction != null) {
+					if(winner == userPrediction) { 
+						System.out.println("Congratulations! You correctly predicted the winner.");
+						System.out.println();
+					} else { 
+						System.out.println("Sorry, your prediction was incorrect.");
+						System.out.println();
+					}
+					userPrediction = null; // User prediction can only be used for one game
+				}
+			} catch (NotEnoughAthletesException e){
+				System.out.println(e.toString());
+			} catch (NoRefereeException e) {
+				// TODO Auto-generated catch block
+				System.out.println(e.toString());
 			}
+
 		}
 	}
 
@@ -135,7 +142,7 @@ public class GameDriver {
 		boolean done = false;
 
 		if (currentGame == null) {
-			System.out.println("There is no game selected. Please select a game.");
+			System.out.println("There is no game selected. Please select a game."); //exception????
 			return null;
 		} else {	
 			System.out.println();

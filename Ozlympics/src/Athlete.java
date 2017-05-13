@@ -1,5 +1,3 @@
-package ozlympics;
-
 import java.util.Random;
 
 /**
@@ -65,6 +63,4 @@ public class Athlete extends Participant {
 	public void setPoints(double points) {
 		this.points = points;
 	}
-
-
 }
