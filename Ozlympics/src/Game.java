@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -5,6 +6,11 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
+=======
+import java.util.Arrays;
+
+/**
+>>>>>>> refs/remotes/origin/letty
  * Represents a single Ozlympics Game in a particular sport with athletes and a referee.
  * may need an addAthlete() method later
  * 
