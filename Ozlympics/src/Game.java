@@ -1,3 +1,5 @@
+package ozlympics;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -19,6 +21,7 @@ public class Game {
 	private Official referee;
 	private String gameID; 
 	private boolean resultExists = false;
+	private int [] scores;
 	
 	public Game() {	}
 
@@ -55,11 +58,11 @@ public class Game {
 	 * Method to run a game in the Ozlympics
 	 * @return the winning athlete or null if game not successful
 	 * @throws NotEnoughAthletesException 
-	 * @throws NoRefereeException 
 	 */
-	public Athlete runGame() throws NotEnoughAthletesException, NoRefereeException {
+	public Athlete runGame() throws NotEnoughAthletesException {
 		int count = 0;
-		int [] scores = new int [athletes.length];		
+		scores = new int [athletes.length];	
+		List <Pair> pairList = new ArrayList<Pair>();
 		
 		// Check number of competitors who can compete (4-8)
 		if (athletes.length < MIN_COMPETITORS) {
@@ -75,6 +78,8 @@ public class Game {
 		for (int i = 0; i<athletes.length; i++) {
 			try {
 				scores[i] = athletes[i].compete(whichSport);
+				Pair temp = Pair.of(scores[i], athletes[i]);
+				pairList.add(temp);
 				count++;
 			} catch (WrongSportException e) {	}
 		}
@@ -83,10 +88,30 @@ public class Game {
 			//return null;
 			throw new NotEnoughAthletesException("There were not enough athletes able to compete in " + whichSport + ". No result.");
 		}
+		for (int i : scores) {
+			System.out.println(i);
+		}
+		
+		ListIterator<Pair> it = pairList.listIterator();
+		while (it.hasNext()) {
+			System.out.println(it.next());
+		}
 		
 		// Ask official to rank athletes and generate scores
-		athletes = referee.scoreGame(athletes, scores);
+		referee.scoreGame(pairList);
+		it = pairList.listIterator();
+		while (it.hasNext()) {
+			System.out.println(it.next());
+		}
+		
+		
+		referee.scoreGame(athletes, scores);
+		for( int i : scores) {
+			System.out.println(i);
+		}
+		Arrays.sort(scores);
 		referee.awardPoints(athletes);
+		referee.awardPoints(pairList);
 		resultExists = true;	
 		return athletes[0];
 	}
@@ -129,12 +154,10 @@ public class Game {
 	/**
 	 * If there are more than 8 athletes only the first 8 will be added.
 	 * @param athletes the athletes to set 
-	 * @throws GameFullException 
 	 */
-	public void setAthletes(Athlete [] athletes) throws GameFullException {
+	public void setAthletes(Athlete [] athletes) {
 		if (athletes.length > MAX_COMPETITORS) {
-			//this.athletes = Arrays.copyOfRange(athletes, 0, 8);
-			throw new GameFullException();
+			this.athletes = Arrays.copyOfRange(athletes, 0, 8);
 		} else {
 			this.athletes = athletes;
 		}
@@ -176,5 +199,13 @@ public class Game {
 	 */
 	public void setResultExists(boolean resultExists) {
 		this.resultExists = resultExists;
+	}
+
+	public int[] getScores() {
+		return scores;
+	}
+
+	public void setScores(int[] scores) {
+		this.scores = scores;
 	}
 }
