@@ -1,8 +1,5 @@
-package ozlympics;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -58,8 +55,9 @@ public class Game {
 	 * Method to run a game in the Ozlympics
 	 * @return the winning athlete or null if game not successful
 	 * @throws NotEnoughAthletesException 
+	 * @throws NoRefereeException 
 	 */
-	public Athlete runGame() throws NotEnoughAthletesException {
+	public Athlete runGame() throws NotEnoughAthletesException, NoRefereeException {
 		int count = 0;
 		scores = new int [athletes.length];	
 		List <Pair> pairList = new ArrayList<Pair>();
@@ -154,10 +152,12 @@ public class Game {
 	/**
 	 * If there are more than 8 athletes only the first 8 will be added.
 	 * @param athletes the athletes to set 
+	 * @throws GameFullException 
 	 */
-	public void setAthletes(Athlete [] athletes) {
+	public void setAthletes(Athlete [] athletes) throws GameFullException {
 		if (athletes.length > MAX_COMPETITORS) {
-			this.athletes = Arrays.copyOfRange(athletes, 0, 8);
+			//this.athletes = Arrays.copyOfRange(athletes, 0, 8);
+			throw new GameFullException();
 		} else {
 			this.athletes = athletes;
 		}

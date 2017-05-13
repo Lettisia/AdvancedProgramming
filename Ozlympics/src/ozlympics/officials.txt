@@ -1,3 +1,0 @@
-SwimBoss, Swimmy McSwimmyPants, 57, VIC,
-CycleBoss, Cycle Boffin, 45, QLD,
-RunBoss, Zoomy RunsFast, 37, NSW,

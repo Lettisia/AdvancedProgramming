@@ -1,5 +1,3 @@
-package ozlympics;
-
 import static org.junit.Assert.*;
 
 import java.time.LocalDateTime;
@@ -63,13 +61,23 @@ public class DataMonkeyTest {
 		List <Game> games = new ArrayList<Game>(); 
 		games.add(new Game("Swimming", "S01"));
 		Athlete [] swimmers = monkey.getAthletes().subList(2, 10).toArray(new Athlete [8]);
-		games.get(0).setAthletes(swimmers);
+		try {
+			games.get(0).setAthletes(swimmers);
+		} catch (GameFullException e1) {
+			e1.printStackTrace();
+		}
 		games.get(0).setReferee(monkey.getOfficials().get(0));
 		for (int i = 0;i<8;i++) {
 			System.out.println(games.get(0).getAthletes()[i]);
 		}
 		
-		Athlete winner = games.get(0).runGame();
+		Athlete winner = null;
+		try {
+			winner = games.get(0).runGame();
+		} catch (NotEnoughAthletesException | NoRefereeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(winner + "start");
 		System.out.println(games.get(0).getScores());
 		String [] result = games.get(0).printResult();

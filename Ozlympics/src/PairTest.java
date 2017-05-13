@@ -1,4 +1,4 @@
-package ozlympics;
+
 
 import static org.junit.Assert.*;
 

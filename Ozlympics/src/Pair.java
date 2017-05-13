@@ -1,4 +1,4 @@
-package ozlympics;
+
 
 /**
  * @author Peter Lawrey
