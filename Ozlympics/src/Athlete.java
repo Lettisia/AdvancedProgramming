@@ -36,6 +36,8 @@ public class Athlete extends Participant {
 		}
 		return score;
 	}
+
+	
 	
 	@Override
 	public String toString() {
@@ -62,5 +64,10 @@ public class Athlete extends Participant {
 	 */
 	public void setPoints(double points) {
 		this.points = points;
+	}
+
+	@Override
+	public String getType() {
+		return "super";
 	}
 }

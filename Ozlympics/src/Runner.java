@@ -24,4 +24,9 @@ public class Runner extends Athlete {
 		Random randomGenerator = new Random();
 		return randomGenerator.nextInt(11)+10;
 	}
+	
+	@Override
+	public String getType() {
+		return "sprinter";
+	}
 }

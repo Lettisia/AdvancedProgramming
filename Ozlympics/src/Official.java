@@ -75,6 +75,11 @@ public class Official extends Participant {
 	    return -1;
 	}
 
+	@Override
+	public String getType() {
+		return "official";
+	}
+
 }
 
 

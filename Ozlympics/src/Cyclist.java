@@ -25,4 +25,9 @@ public class Cyclist extends Athlete {
 		Random randomGenerator = new Random();
 		return randomGenerator.nextInt(301)+500;
 	}
+	
+	@Override
+	public String getType() {
+		return "cyclist";
+	}
 }

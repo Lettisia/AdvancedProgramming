@@ -26,6 +26,8 @@ public abstract class Participant implements Comparable<Participant> {
 		return this.getName().compareTo(arg0.getName());
 	}
 	
+	public abstract String getType();
+	
 	/**
 	 * @return the userID
 	 */

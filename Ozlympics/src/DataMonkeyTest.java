@@ -32,7 +32,7 @@ public class DataMonkeyTest {
 
 	@Test
 	public void testDataMonkey() {
-		monkey = new DataMonkey();
+		monkey = new DataMonkey(false);
 		assertTrue(monkey.isDBConnected());
 	}
 
@@ -104,7 +104,7 @@ public class DataMonkeyTest {
 	
 	@Test	
 	public void testGameListSaveResults() {
-		boolean useFile = true;
+		boolean useFile = false;
 		monkey = new DataMonkey(useFile); 
 		Game glist = new Game("Swimming", "S01");
 //		Athlete [] swimmers = monkey.getAthletes().subList(2, 10).toArray(new Athlete [8]);
@@ -130,8 +130,10 @@ public class DataMonkeyTest {
 		}
 		
 //		System.out.println(glist.getScoreAthlete());
-	
-//		monkey.saveResults(glist);
+
+		List <Game> games = new ArrayList<Game>();
+		games.add(glist);
+		monkey.saveResults(games);
 
 //		games[1] = new Game("Running", "R01");
 //		games[1].setAthletes(Arrays.copyOfRange(athletes, 0, 4));

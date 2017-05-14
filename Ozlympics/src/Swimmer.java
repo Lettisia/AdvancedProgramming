@@ -25,4 +25,9 @@ public class Swimmer extends Athlete {
 		Random randomGenerator = new Random();
 		return randomGenerator.nextInt(101)+100;
 	}
+	
+	@Override
+	public String getType() {
+		return "swimmer";
+	}
 }
