@@ -20,7 +20,7 @@ public class Athlete extends Participant {
 	public int compete(String sportName) throws WrongSportException {
 		int score = 0;
 		if (sportName == "Swimming") {
-				// Generate a random integer from 100 to 200
+			// Generate a random integer from 100 to 200
 			Random randomGenerator = new Random();
 			score = randomGenerator.nextInt(101)+100;
 		} else if (sportName == "Running") {

@@ -47,6 +47,11 @@ public class Game {
 		return scoreAthlete.size();
 	}
 	
+	/**
+	 * Method to run a game in the Ozlympics
+	 * @throws NotEnoughAthletesException 
+	 * @throws NoRefereeException 
+	 */
 	public void runGame() throws NotEnoughAthletesException, NoRefereeException {
 		int count = 0;
 		if (scoreAthlete.size() < MIN_COMPETITORS) {

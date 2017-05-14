@@ -33,13 +33,18 @@ public class Official extends Participant {
 		return ordered;
 	}
 	
+	/**
+	 * Sorts list according to game scores, winner is first
+	 * @param pairList - List of score-athlete pairs
+	 */
 	public void scoreGame(List<Pair<Integer,Athlete>> pairList) {
 		Collections.sort(pairList);
 	}
 	
 	/**
 	 * Allocates points to winning athletes based on contents of WINNINGPOINTS. 
-	 * Assumes athletes are already sorted based on their results in a game. Winner is index 0.
+	 * Assumes athletes are already sorted based on their results in a game. 
+	 * Winner is index 0.
 	 * 
 	 * @param athletes Array of athletes sorted by score in a game
 	 */
@@ -49,6 +54,14 @@ public class Official extends Participant {
 		}
 	}
 	
+	/**
+	 * Allocates points to winning athletes based on contents of WINNINGPOINTS. 
+	 * Sorts Athletes based on their results in a game so scoreGame() method 
+	 * is unnecessary. 
+	 * Winner is index 0.
+	 * 
+	 * @param pairList
+	 */
 	public void awardPoints(List<Pair<Integer,Athlete>> pairList) {
 		Collections.sort(pairList);
 		for( int i=0; i<WINNINGPOINTS.length; i++) {
