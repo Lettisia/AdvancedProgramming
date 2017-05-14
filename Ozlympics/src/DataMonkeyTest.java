@@ -48,8 +48,8 @@ public class DataMonkeyTest {
 		monkey = new DataMonkey(useFile); 
 		monkey.loadParticipants();
 		assertTrue(monkey.getAthletes() != null);
-		System.out.println(monkey.getAthletes().get(0).toString());
-		System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SS")));
+//		System.out.println(monkey.getAthletes().get(0).toString());
+//		System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SS")));
 	}
 	
 
@@ -133,7 +133,7 @@ public class DataMonkeyTest {
 
 		List <Game> games = new ArrayList<Game>();
 		games.add(glist);
-		monkey.saveResults(games);
+		monkey.saveResults(games, false);
 
 //		games[1] = new Game("Running", "R01");
 //		games[1].setAthletes(Arrays.copyOfRange(athletes, 0, 4));

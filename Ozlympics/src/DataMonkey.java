@@ -18,9 +18,9 @@ import java.util.Scanner;
 
 
 /**
- * Contains data for the Ozlympics game.
- * Reads data in from text files containing athletes and officials. 
- * Creates arrays of athletes, officials and games. 
+ * Contains and manages data for the Ozlympics game.
+ * Reads/writes data in from text files containing participants and game results. 
+ * Access and stores participant data in a SQLite database.
  * 
  * @author Lettisia George
  *
@@ -29,15 +29,16 @@ import java.util.Scanner;
 public class DataMonkey {
 	private static final String PARTICIPANTFILE = "participants.txt";
 	private static final String RESULTSFILE = "gameResults.txt";
-
 	private List <Athlete> athletes = new ArrayList<Athlete>();
 	private List <Official> officials = new ArrayList<Official>();
 	private List <Game> games = new ArrayList<Game>();
-
 	private boolean isDBConnected = false;
+
+	/* To set up db participant table and populate from text file create a 
+	 * new DataMonkey once with isDBsetup = false
+	 */
 	private boolean isDBSetup = true;
-
-
+	
 
 	public DataMonkey() {
 		//Check for DB connection
@@ -45,30 +46,27 @@ public class DataMonkey {
 			Connection c = null;
 			Class.forName("org.sqlite.JDBC");
 			c = DriverManager.getConnection("jdbc:sqlite:test.db");
-			//hey it worked!
-			isDBConnected = true;
+			if (!isDBSetup) {
+				setupDB(c);
+			}
 			c.close();
+			isDBConnected = true;
 		} catch (Exception e) {
 			isDBConnected = false;
 		}
-
 		loadParticipants();
 		loadResults();
 	}
 
 	public DataMonkey(boolean useFile) {
 		if (!useFile) {
-			//Check for DB connection
-			try { //opening the db
+			try { 
 				Connection c = null;
 				Class.forName("org.sqlite.JDBC");
 				c = DriverManager.getConnection("jdbc:sqlite:test.db");
-				
 				if (!isDBSetup) {
 					setupDB(c);
 				}
-				
-				
 				c.close();
 				isDBConnected = true;
 			} catch (Exception e) {
@@ -77,11 +75,17 @@ public class DataMonkey {
 		} else {
 			isDBConnected = false;
 		}
-
 		loadParticipants();
-		//		loadResults();			// not needed as results are new for each time game is run
+		//loadResults();		// not needed as results are new for each time game is run
 	}
-
+	
+	/**
+	 * Sets up the participants table if it does not exist and populates it 
+	 * from the text file.
+	 * 
+	 * @param c open database connection
+	 * @throws SQLException
+	 */
 	private void setupDB(Connection c) throws SQLException {
 		readParticipantFile();
 		
@@ -94,14 +98,20 @@ public class DataMonkey {
 		while(it.hasNext()) {
 			ppl.add(it.next());
 		}
+		
 		ListIterator<Official> it2 = officials.listIterator();
 		while(it2.hasNext()) {
 			ppl.add(it2.next());
 		}
-		saveDBParticipants(ppl);
-		
+		saveDBParticipants(ppl);		
 	}
 
+	/**
+	 * Saves a list of participants in a database or file depending on what is 
+	 * currently available.
+	 * 
+	 * @param ppl list of athletes and officials
+	 */
 	public void saveParticipants(List <Participant> ppl) {
 		if (isDBConnected) {
 			saveDBParticipants(ppl);
@@ -110,6 +120,10 @@ public class DataMonkey {
 		}
 	}
 
+	/**
+	 * Loads the list of participants from a database or file depending on what is 
+	 * currently available.
+	 */
 	public void loadParticipants() {
 		if (isDBConnected) {
 			readDBParticipants();
@@ -118,14 +132,25 @@ public class DataMonkey {
 		}
 	}
 
-	public void saveResults(List <Game> games) {
+	/**
+	 * Saves a list of game results in a database or file depending on what is 
+	 * currently available.
+	 * 
+	 * @param games		List of games with results
+	 * @param append 	If false any previously stored results will be deleted 
+	 * 					before the new results are added.
+	 */
+	public void saveResults(List <Game> games, boolean append) {
 		if (isDBConnected) {
-			saveDBResults(games);
+			saveDBResults(games, append);
 		} else {
-			writeResultsFile(games, true);
+			writeResultsFile(games, append);
 		}
 	}
 
+	/**
+	 * Not currently implemented
+	 */
 	public void loadResults() {
 		if (isDBConnected) {
 			readDBResults();
@@ -134,6 +159,9 @@ public class DataMonkey {
 		}
 	}
 
+	/**
+	 * Loads the list of participants from a text file
+	 */
 	public void readParticipantFile() {
 		Scanner s = null;
 		try {
@@ -158,7 +186,6 @@ public class DataMonkey {
 					} else {
 						throw new WrongSportException();
 					}
-
 				}
 			}
 		} catch (Exception e) {
@@ -170,10 +197,7 @@ public class DataMonkey {
 		}
 	}
 
-	
-	/**
-	 * Not finished cos I'm not sure it's useful
-	 */
+// Not finished because I'm not sure it's useful
 	public void readResultsFile () {
 		//TODO
 		Scanner s = null;
@@ -203,7 +227,6 @@ public class DataMonkey {
 				while (!line.isEmpty() & s.hasNext()) {
 					line = s.nextLine();
 					tokens = line.split(",");
-				
 				} 
 			}
 		} catch (Exception e) {
@@ -214,12 +237,18 @@ public class DataMonkey {
 			}
 		}
 	}
-
+	
+	// Probably unnecessary
 	public void writeParticipantFile(List<Participant> ppl) {
 		//TODO may not be needed?
 	}
 	
-	private boolean isAParticipant(String userID) {
+	/**
+	 * Helper method for finding a participant by username
+	 * @param userID
+	 * @return true if found in either list of officials or athletes
+	 */
+	public boolean isAParticipant(String userID) {
 		boolean found = false;
 		Iterator<Athlete> it = athletes.iterator();
 		while(it.hasNext() & !found) {
@@ -232,6 +261,12 @@ public class DataMonkey {
 		return found;
 	}
 
+	/**
+	 * Saves a list of game results in a file.
+	 * 
+	 * @param games		List of games with results
+	 * @param append 	If false existing results in file will be deleted
+	 */
 	public void writeResultsFile(List <Game> games, boolean append) {
 		PrintWriter writer = null;
 		try {
@@ -257,7 +292,6 @@ public class DataMonkey {
 				}				
 				writer.println();
 			}
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -267,6 +301,13 @@ public class DataMonkey {
         }
 	}
 	
+	
+	/**
+	 * Saves a list of participants in a database. 
+	 * Adds participants to those already in database
+	 * 
+	 * @param ppl list of athletes and officials
+	 */
 	public void saveDBParticipants(List <Participant> ppl) {
 		Connection c = null;
 		Statement s = null;
@@ -291,16 +332,20 @@ public class DataMonkey {
 						   + temp.getName() + "\", " + temp.getAge() + ", \"" + temp.getState() + "\"";
 				s.executeUpdate("insert into participants values (" + tempString + ")");
 			}
-			
 			c.commit();
-			c.close();			
+			c.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
-	public void saveDBResults(List <Game> games) {
+	/**
+	 * Saves a list of game results in a database.
+	 * 
+	 * @param games		List of games with results
+	 * @param append 	If false existing results in database will be deleted
+	 */
+	public void saveDBResults(List <Game> games, boolean append) {
 		Connection c = null;
 		Statement s = null;
 		
@@ -314,6 +359,10 @@ public class DataMonkey {
 			}
 			
 			s = c.createStatement();
+			if (!append) {
+				s.executeUpdate("delete from results;");
+			}			
+
 			ListIterator<Game> gameIt = games.listIterator();
 			Game aGame;
 			String gameString;
@@ -332,7 +381,6 @@ public class DataMonkey {
 					s.executeUpdate("insert into results values (" + gameString + ", " + athleteString + ")");
 				}
 			}
-
 			c.commit();
 			c.close();	
 		} catch (Exception e) {
@@ -340,6 +388,9 @@ public class DataMonkey {
 		}
 	}
 
+	/**
+	 * Loads the list of participants (athletes and officials) from a database.
+	 */
 	public void readDBParticipants() {
 		Connection conn = null;
 		Statement stmt = null;
@@ -368,17 +419,19 @@ public class DataMonkey {
 						throw new WrongSportException();
 					}
 				}
-
 			}
-
 			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		
 	}
 	
+	/**
+	 * Creates the table in the database used to store participants
+	 * 
+	 * @param conn - An open database connection.
+	 * @throws SQLException
+	 */
 	private void createParticipantTable(Connection conn) throws SQLException {
 		Statement stmt = null;
 		stmt = conn.createStatement(); 
@@ -392,7 +445,12 @@ public class DataMonkey {
 		conn.commit();
 	}
 
-	
+	/**
+	 * Creates the table in the database used to store game results
+	 * 
+	 * @param conn - An open database connection.
+	 * @throws SQLException
+	 */
 	private void createResultTable(Connection conn) throws SQLException {
 		Statement stmt = null;
 		stmt = conn.createStatement(); 
@@ -406,6 +464,7 @@ public class DataMonkey {
 		conn.commit();
 	}
 
+	// Probably not necessary
 	public void readDBResults() {
 	//TODO needed?
 		Connection c = null;
@@ -485,10 +544,18 @@ public class DataMonkey {
 		this.games = games;
 	}
 
+	/**
+	 * Used to control whether data is stored/accessed from the text file or database.
+	 * @return true if there is a connection to a database available
+	 */
 	public boolean isDBConnected() {
 		return isDBConnected;
 	}
 
+	/**
+	 * Used to control whether data is stored/accessed from the text file or database.
+	 * @param isDBConnected
+	 */
 	public void setDBConnected(boolean isDBConnected) {
 		this.isDBConnected = isDBConnected;
 	}
