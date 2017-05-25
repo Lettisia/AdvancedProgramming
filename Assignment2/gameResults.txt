@@ -1,0 +1,8 @@
+C1,ZRoff,2017-05-25 16:11:31.07
+JObike,567,5.0
+HAbike,677,2.0
+HMbike,723,1.0
+HSbike,737,0.0
+AMbike,751,0.0
+FWbike,784,0.0
+
